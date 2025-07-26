@@ -22,24 +22,26 @@
             function shootFalse(){shoot = false;}
             //Event Listener
             upBtn.addEventListener ("mousedown", upTrue);
-upBtn.addEventListener ("mouseup", upFalse);
-upBtn.addEventListener ("touchstart", upTrue); 
-upBtn.addEventListener ("touchend", upFalse);
+            upBtn.addEventListener ("mouseup", upFalse);
+            upBtn.addEventListener ("touchstart", upTrue); 
+            upBtn.addEventListener ("touchend", upFalse);
 
-downBtn.addEventListener ("mousedown", downTrue);
-downBtn.addEventListener ("mouseup", downFalse);
-downBtn.addEventListener ("touchstart", downTrue); 
-downBtn.addEventListener ("touchend", downFalse);
-
-shootBtn.addEventListener ("mousedown", shootTrue);
-shootBtn.addEventListener ("mouseup", shootFalse);
-shootBtn.addEventListener ("touchstart", shootTrue); 
-shootBtn.addEventListener ("touchend", shootFalse);
+            downBtn.addEventListener ("mousedown", downTrue);
+            downBtn.addEventListener ("mouseup", downFalse);
+            downBtn.addEventListener ("touchstart", downTrue); 
+            downBtn.addEventListener ("touchend", downFalse);
+    
+            shootBtn.addEventListener ("mousedown", shootTrue);
+            shootBtn.addEventListener ("mouseup", shootFalse);
+            shootBtn.addEventListener ("touchstart", shootTrue); 
+            shootBtn.addEventListener ("touchend", shootFalse);
         </script>
     </head>
     <body>
+        <h1>Ufo Shooter</h1>
  <button id="upBtn">Hoch</button>
   <button id="downBtn">Runter</button>
   <button id="shootBtn">Schießen</button>
+<canvas id="gameScreen"></canvas>
     </body>
 </html>
