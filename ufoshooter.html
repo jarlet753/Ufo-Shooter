@@ -13,12 +13,14 @@
            const upBtn = document.getElementById("upBtn");
            const downBtn = document.getElementById("downBtn");
            const shootBtn = document.getElementById("shootBtn");
+           // Help functions
             function upTrue(){up = true;}
             function downTrue(){down = true;}
             function shootTrue(){shoot = true;}
             function upFalsw(){up = false;}
             function downFalse(){down = false;}
             function shootFalse(){shoot = false;}
+            //Event Listener
             upBtn.addEventListener ("mousedown", upTrue);
 upBtn.addEventListener ("mouseup", upFalse);
 upBtn.addEventListener ("touchstart", upTrue); 
