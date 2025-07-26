@@ -19,6 +19,20 @@
             function upFalsw(){up = false;}
             function downFalse(){down = false;}
             function shootFalse(){shoot = false;}
+            upBtn.addEventListener ("mousedown", upTrue);
+upBtn.addEventListener ("mouseup", upFalse);
+upBtn.addEventListener ("touchstart", upTrue); 
+upBtn.addEventListener ("touchend", upFalse);
+
+downBtn.addEventListener ("mousedown", downTrue);
+downBtn.addEventListener ("mouseup", downFalse);
+downBtn.addEventListener ("touchstart", downTrue); 
+downBtn.addEventListener ("touchend", downFalse);
+
+shootBtn.addEventListener ("mousedown", shootTrue);
+shootBtn.addEventListener ("mouseup", shootFalse);
+shootBtn.addEventListener ("touchstart", shootTrue); 
+shootBtn.addEventListener ("touchend", shootFalse);
         </script>
     </head>
     <body>
