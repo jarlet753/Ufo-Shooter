@@ -33,6 +33,8 @@
       alert("Debug true");
     }
         window.onerror = function(message, source, lineno, colno, error) {
+            if(localStorage.getItem("debug") === true){
+
   alert(
     "Fehler:\n" +
     message + "\n\n" +
@@ -40,6 +42,7 @@
     "Zeile: " + lineno + ", Spalte: " + colno + "\n\n" +
     "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
   );
+            }
 };
 
         //Key Status
