@@ -44,7 +44,7 @@
     "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
   );
 }};
-if(localStorage.getItem("debug") === true){
+if(localStorage.getItem("debug") == "true"){
     alert("Debug = true");
 }
 
@@ -107,6 +107,9 @@ const spawnAcceleration = 10;
         
         function startGame(){
             loadImages();
+           if(localStorage.getItem ("debug") == "true"){
+alert ("Debug = true");
+} 
               const upBtn = document.getElementById("upBtn");
     upBtn.addEventListener("touchstart", handlePress);
     upBtn.addEventListener("touchend", handleReleasd);
