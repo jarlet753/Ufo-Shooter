@@ -22,7 +22,7 @@
       (function () {  
      const params = new URLSearchParams(window.location.search);
     
-    if (params.get("debug") === "true") {
+    if (params.get("debug") == "true") {
       // Im localStorage setzen
       localStorage.setItem("debug", "true");
 
@@ -46,7 +46,7 @@
   );
             }
 };
-if(localStorage.getItem("debug") === true){
+if(localStorage.getItem("debug") == true){
     alert("Debug = true");
 }
 
