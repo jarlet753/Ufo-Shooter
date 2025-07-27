@@ -19,6 +19,16 @@
         }
     </style>
     <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+  alert(
+    "Fehler:\n" +
+    message + "\n\n" +
+    "Datei: " + source + "\n" +
+    "Zeile: " + lineno + ", Spalte: " + colno + "\n\n" +
+    "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
+  );
+};
+
         //Key Status
         let KEY_SPACE = false; // 32
         let KEY_UP = false; // 38
