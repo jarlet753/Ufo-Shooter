@@ -49,7 +49,6 @@
         let KEY_UP = false; // 38
         let KEY_DOWN = false; // 40
         let score = 0;
-        let backgroundImage = new Image;
         let guns = [];
         let ufos = [];
         let ufoSpawnDelay = 2000;      // Startverzögerung (ms)
@@ -207,6 +206,7 @@ const spawnAcceleration = 10;
         function loadImages(){
             let canvas = document.getElementById('gamescreen');
             let ctx = canvas.getContext('2d');
+            let backgroundImage = new Image;
             backgroundImage.src = '../../img/background.png'
             rocket.img = new Image();
             rocket.img.src = rocket.src;
