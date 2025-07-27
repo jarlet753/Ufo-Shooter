@@ -25,12 +25,6 @@
     if (params.get("debug") == "true") {
       // Im localStorage setzen
       localStorage.setItem("debug", "true");
-
-      // URL ohne Parameter erzeugen
-      const cleanUrl = window.location.origin + window.location.pathname;
-
-      // Seite neu laden ohne Parameter
-      window.location.replace(cleanUrl);
       alert("Debug true");
     } else {
         localStorage.setItem("debug", "false");
