@@ -48,9 +48,7 @@
         let KEY_SPACE = false; // 32
         let KEY_UP = false; // 38
         let KEY_DOWN = false; // 40
-        let canvas;
         let score = 0;
-        let ctx;
         let backgroundImage = new Image;
         let guns = [];
         let ufos = [];
@@ -207,8 +205,8 @@ const spawnAcceleration = 10;
         }
 
         function loadImages(){
-            canvas = document.getElementById('gamescreen');
-            ctx = canvas.getContext('2d');
+            let canvas = document.getElementById('gamescreen');
+            let ctx = canvas.getContext('2d');
             backgroundImage.src = '../../img/background.png'
             rocket.img = new Image();
             rocket.img.src = rocket.src;
