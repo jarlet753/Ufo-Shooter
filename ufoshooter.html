@@ -1,47 +1,201 @@
 <!DOCTYPE html>
-<html lang = "de">
-    <head>
-        <title>Ufo Shooter</title>
-        <style>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ufo Shooter</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: blue;
+        }
+        footer {
+            height: 10px;
+            background-color: black;
+            margin: 0;
+        }
+    </style>
+    <script>
+        //Key Status
+        let KEY_SPACE = false; // 32
+        let KEY_UP = false; // 38
+        let KEY_DOWN = false; // 40
+        let canvas;
+        let score = 0;
+        let ctx;
+        let backgroundImage = new Image;
+        let guns = [];
+        let ufos = [];
+        let ufoSpawnDelay = 2000;      // Startverzögerung (ms)
+const minSpawnDelay = 100;     // Minimalintervall
+const spawnAcceleration = 10;
+        let cooldown = 0;
+        //Game Objekts
+        let rocket = {
+            x: 0,
+            y: 0,
+            width: 128,
+            hight: 74,
+            src: '../../img/rocket.png'
+        };
+        //Key Test
 
-        </style>
-        <script>
-            let up = false;
-            let down = false;
-            let shoot = false;
-            //Movement Buttons
-           const upBtn = document.getElementById("upBtn");
-           const downBtn = document.getElementById("downBtn");
-           const shootBtn = document.getElementById("shootBtn");
-           // Help functions
-            function upTrue(){up = true;}
-            function downTrue(){down = true;}
-            function shootTrue(){shoot = true;}
-            function upFalsw(){up = false;}
-            function downFalse(){down = false;}
-            function shootFalse(){shoot = false;}
-            //Event Listener
-            upBtn.addEventListener ("mousedown", upTrue);
-            upBtn.addEventListener ("mouseup", upFalse);
-            upBtn.addEventListener ("touchstart", upTrue); 
-            upBtn.addEventListener ("touchend", upFalse);
+        document.onkeydown = function(e){
+             e.preventDefault();
+            if(e.keyCode == 192){
+                KEY_SPACE = true;
+            }
+            if(e.keyCode == 87){
+                KEY_UP = true;
+            }
+            if(e.keyCode == 83){
+                KEY_DOWN = true;
+            }
+        }
+        document.onkeyup = function(e){
+             if(e.keyCode == 192){
+                KEY_SPACE = false;
+            }
+            if(e.keyCode == 87){
+                KEY_UP = false;
+            }
+            if(e.keyCode == 83){
+                KEY_DOWN = false;
+            }
+        }
+        
+        function startGame(){
+            loadImages();
+            spawnUfoLoop();
+            setInterval(update, 1000/30);
+            //setInterval(createUfos, 2000);
+            draw();
+        }
+        function spawnUfoLoop() {
+    createUfos();  // Dein UFO-Erstellungs-Code
 
-            downBtn.addEventListener ("mousedown", downTrue);
-            downBtn.addEventListener ("mouseup", downFalse);
-            downBtn.addEventListener ("touchstart", downTrue); 
-            downBtn.addEventListener ("touchend", downFalse);
+    // Delay anpassen (aber nicht unter minSpawnDelay)
+    ufoSpawnDelay = Math.max(minSpawnDelay, ufoSpawnDelay - spawnAcceleration);
+
+    // Nächsten Aufruf planen
+    setTimeout(spawnUfoLoop, ufoSpawnDelay);
+}
+        
+        function update(){
+            cooldown -= 1000/30;
+            if(KEY_UP){
+                rocket.y -= 5;
+            }
+            if(KEY_DOWN){
+                rocket.y += 5;
+            }
+            if(rocket.y < 0){
+                rocket.y = 0;
+            }
+            if(rocket.y + rocket.hight > 1000){
+                rocket.y = 1000 - rocket.hight;
+            }
+            if(KEY_SPACE && cooldown <= 0){
+                KEY_SPACE = false;
+                cooldown = 500;
+                shoot();
+            }
+            ufos.forEach(function(ufo){
+                ufo.x -= ufo.speed;
+                if(ufo.x < -50){
+                        ufos = ufos.filter(u => u != ufo);
+                }
+                if(rocket.x + rocket.width > ufo.x && rocket.x < ufo.x + ufo.width){
+                    if(rocket.y < ufo.y + ufo.hight && rocket.y + rocket.hight > ufo.y){
+                        console.log("COLLISION");
+                        rocket.img.src = '../../img/explosion.png'
+                        ufos = ufos.filter(u => u != ufo);
+                    }
+                }
+                
+            });
+              guns.forEach(function(shoot){
+                shoot.x += 25; 
+                if(shoot.x <= -10){
+                     guns = guns.filter(g => g != shoot);
+                     console.log("DELET SHOOT");
+                }
+                ufos.forEach(function(ufo){
+                if(shoot.x + shoot.width > ufo.x && shoot.x < ufo.x + ufo.width){
+                    if(shoot.y < ufo.y + ufo.hight && shoot.y + shoot.hight > ufo.y){
+                        console.log("COLLISION");
+                        ufos = ufos.filter(u => u != ufo);
+                        guns = guns.filter(g => g != shoot);
+                        score += 1;
+                    }
+                }
+                
+            })
+            });
+            document.getElementById("scoreboard").innerText = "Score: " + score;
+
+        }
+
+        function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+        function createUfos(){
+           let ufo =
+            {
+                x: 1700,
+                y: getRandomInt(41, 959),
+                width: 64,
+                hight: 41,
+                src: '../../img/ufo.png',
+                speed: getRandomInt(7, 10),
+                img: new Image()
+            };
+            ufo.img.src = ufo.src; 
+            ufos.push(ufo);
+        }
+        function shoot(){
+           let shoot =
+            {
+                x: rocket.x + rocket.width,
+                y: rocket.y + rocket.hight / 2 - 15,
+                width: 30,
+                hight: 30,
+                src: '../../img/kugel.png',
+                img: new Image()
+            };
+            shoot.img.src = shoot.src; 
+            guns.push(shoot);
+        }
+
+        function loadImages(){
+            canvas = document.getElementById('gamescreen');
+            ctx = canvas.getContext('2d');
+            backgroundImage.src = '../../img/background.png'
+            rocket.img = new Image();
+            rocket.img.src = rocket.src;
+        }
+
+        function draw(){
+            ctx.drawImage(backgroundImage, 0, 0);
+            ctx.drawImage(rocket.img, rocket.x, rocket.y, rocket.width, rocket.hight);
+            ufos.forEach(function(ufo){
+                ctx.drawImage(ufo.img, ufo.x, ufo.y, ufo.width, ufo.hight);
+            });
+            guns.forEach(function(shoot){
+                ctx.drawImage(shoot.img, shoot.x, shoot.y, shoot.width, shoot.hight);
+            });
+            
+            requestAnimationFrame(draw);
+        }
     
-            shootBtn.addEventListener ("mousedown", shootTrue);
-            shootBtn.addEventListener ("mouseup", shootFalse);
-            shootBtn.addEventListener ("touchstart", shootTrue); 
-            shootBtn.addEventListener ("touchend", shootFalse);
-        </script>
-    </head>
-    <body>
-        <h1>Ufo Shooter</h1>
- <button id="upBtn">Hoch</button>
-  <button id="downBtn">Runter</button>
-  <button id="shootBtn">Schießen</button>
-<canvas id="gameScreen"></canvas>
-    </body>
+    </script>
+</head>
+<body onload="startGame()">
+    <header>
+        <h1 id="scoreboard">Score: 0</h1>   
+    </header>
+    <canvas id="gamescreen" width="1500" height="1000"></canvas>
+    <footer></footer>
+</body>
 </html>
