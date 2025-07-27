@@ -44,7 +44,7 @@
     "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
   );
 };
-if(params.getItem("debug") == true){
+if(params.getItem("debug") === true){
     alert("Debug = true");
 }
 
@@ -73,8 +73,8 @@ const spawnAcceleration = 10;
             hight: 74,
             src: '../../img/rocket.png'
         };
-        upBtn.addEventListener("touchstart", handlePress());
-        upBtn.addEventListener("touchend", handleReleasd());
+        upBtn.addEventListener("touchstart", handlePress);
+        upBtn.addEventListener("touchend", handleReleasd);
         function handlePress(){
             KEY_UP = true;
         }
