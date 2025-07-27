@@ -21,6 +21,12 @@
     <script>
       (function () {  
      const params = new URLSearchParams(window.location.search);
+          if (confirm("Willst du fortfahren?")) {
+    console.log("Benutzer hat Ja gewählt");
+} else {
+    console.log("Benutzer hat Nein gewählt");
+}
+
     
     if (params.get("debug") == "true") {
       // Im localStorage setzen
