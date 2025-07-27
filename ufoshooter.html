@@ -21,6 +21,9 @@
         let KEY_UP = false; // 38
         let KEY_DOWN = false; // 40
         let canvas;
+        let upBtn;
+        upBtn = window.getElementById("upBtn");
+
         let score = 0;
         let ctx;
         let backgroundImage = new Image;
@@ -38,6 +41,14 @@ const spawnAcceleration = 10;
             hight: 74,
             src: '../../img/rocket.png'
         };
+        button.addEventListener("touchstart", handlePress());
+        button.addEventListener("touchend", handleReleasd());
+        function handlePress(){
+            up = true;
+        }
+        function handleReleasd(){
+            up = false;
+        }
         //Key Test
 
         document.onkeydown = function(e){
@@ -196,6 +207,7 @@ const spawnAcceleration = 10;
         <h1 id="scoreboard">Score: 0</h1>   
     </header>
     <canvas id="gamescreen" width="1500" height="1000"></canvas>
+    <button id="upBtn">Up</button>
     <footer></footer>
 </body>
 </html>
