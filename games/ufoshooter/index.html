@@ -19,6 +19,7 @@
         }
     </style>
     <script>
+      (function () {  
      const params = new URLSearchParams(window.location.search);
     
     if (params.get("debug") === "true") {
@@ -31,7 +32,7 @@
       // Seite neu laden ohne Parameter
       window.location.replace(cleanUrl);
       alert("Debug true");
-    }
+    }})();
         window.onerror = function(message, source, lineno, colno, error) {
             if(localStorage.getItem("debug") === true){
 
