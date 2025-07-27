@@ -35,8 +35,7 @@
             if(localStorage.getItem("debug") == "true"){
 
   alert(
-    "Error:\n" +
-    message + "\n\n" +
+      message + "\n\n" +
     "URL: " + source + "\n" +
     "Line: " + lineno + "/" + colno + "\n\n" +
     "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
