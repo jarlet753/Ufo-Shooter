@@ -33,7 +33,6 @@
       window.location.replace(cleanUrl);
       alert("Debug true");
     }})();
-        function testloloejdj(){};;;;
         window.onerror = function(message, source, lineno, colno, error) {
             if(localStorage.getItem("debug") == true){
 
@@ -44,7 +43,6 @@
     "Zeile: " + lineno + ", Spalte: " + colno + "\n\n" +
     "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
   );
-            }
 };
 if(localStorage.getItem("debug") == true){
     alert("Debug = true");
