@@ -34,7 +34,7 @@
       alert("Debug true");
     }})();
         window.onerror = function(message, source, lineno, colno, error) {
-            if(localStorage.getItem("debug") == true){
+            if(localStorage.getItem("debug") == "true"){
 
   alert(
     "Fehler:\n" +
@@ -44,7 +44,7 @@
     "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
   );
 };
-if(params.getItem("debug") === true){
+if(params.getItem("debug") == "true"){
     alert("Debug = true");
 }
 
