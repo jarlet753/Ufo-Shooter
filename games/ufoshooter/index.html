@@ -109,6 +109,10 @@ const spawnAcceleration = 10;
         
         function startGame(){
             loadImages();
+              const upBtn = document.getElementById("upBtn");
+    upBtn.addEventListener("touchstart", handlePress);
+    upBtn.addEventListener("touchend", handleReleasd);
+
             spawnUfoLoop();
             setInterval(update, 1000/30);
             //setInterval(createUfos, 2000);
