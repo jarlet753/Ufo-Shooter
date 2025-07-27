@@ -1,1 +1,12 @@
-
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.background {
+    background-color: aqua;
+}
+.headline {
+    size: 100px;
+}
