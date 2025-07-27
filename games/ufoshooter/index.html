@@ -32,7 +32,11 @@
       // Seite neu laden ohne Parameter
       window.location.replace(cleanUrl);
       alert("Debug true");
-    }})();
+    } else {
+        localStorage.setItem("debug", "false");
+        alert("Debug = False");
+    }
+})();
         window.onerror = function(message, source, lineno, colno, error) {
             if(localStorage.getItem("debug") == "true"){
 
