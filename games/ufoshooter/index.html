@@ -56,7 +56,7 @@
         let KEY_DOWN = false; // 40
         let score = 0;
         let guns = [];
-        let ufos = [];
+       
         let ufoSpawnDelay = 2000;      // Startverzögerung (ms)
 const minSpawnDelay = 100;     // Minimalintervall
 const spawnAcceleration = 10;
@@ -176,6 +176,7 @@ const spawnAcceleration = 10;
 }
 
         function createUfos(){
+             let ufos = [];
            let ufo =
             {
                 x: 1700,
