@@ -64,6 +64,14 @@
       }
     };
 
+    function debugUpdate(){
+      if (localStorage.getItem("debug") === "true") {
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "yellow"
+        ctx.fillText("Ufos: " + ufos.lenght, 10, 30);
+
+      }
+    }
     // Initialisierung nach Seitenladevorgang
     function startGame() {
       const canvas = document.getElementById("gamescreen");
