@@ -93,7 +93,7 @@
 
       // Touch-Unterstützung
       const upBtn = document.getElementById("upBtn");
-      upBtn.addEventListener("touchstart", (e) => { e.preventDefault(); KEY_UP = true; });
+      upBtn.addEventListener("touchstart", (e) => { e.preventDefault(); KEY_UP = true; rocket.y -=5;});
 upBtn.addEventListener("touchend", () => { KEY_UP = false; });
 upBtn.addEventListener("mousedown", () => { KEY_UP = true; });
 upBtn.addEventListener("mouseup", () => { KEY_UP = false; });
