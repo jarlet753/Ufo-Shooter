@@ -62,13 +62,7 @@ const minSpawnDelay = 100;     // Minimalintervall
 const spawnAcceleration = 10;
         let cooldown = 0;
         //Game Objekts
-        let rocket = {
-            x: 0,
-            y: 0,
-            width: 128,
-            hight: 74,
-            src: '../../img/rocket.png'
-        };
+       
         function handlePress(){
             KEY_UP = true;
         }
@@ -214,6 +208,13 @@ const spawnAcceleration = 10;
             let ctx = canvas.getContext('2d');
             let backgroundImage = new Image;
             backgroundImage.src = '../../img/background.png'
+             let rocket = {
+            x: 0,
+            y: 0,
+            width: 128,
+            hight: 74,
+            src: '../../img/rocket.png'
+        };
             rocket.img = new Image();
             rocket.img.src = rocket.src;
         }
