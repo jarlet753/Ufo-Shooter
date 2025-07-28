@@ -89,10 +89,16 @@
 
       // Touch-Unterstützung
       const upBtn = document.getElementById("upBtn");
-      upBtn.addEventListener("touchstart", (e) => { e.preventDefault(); KEY_DOWN = true;});
-upBtn.addEventListener("touchend", () => { KEY_DOWN = false; });
+      upBtn.addEventListener("touchstart", (e) => { e.preventDefault(); KEY_UP = true;});
+upBtn.addEventListener("touchend", () => { KEY_UP = false; });
 upBtn.addEventListener("mousedown", () => { KEY_UP = true; });
 upBtn.addEventListener("mouseup", () => { KEY_UP = false; });
+
+      const downBtn = document.getElementById("downBtn");
+      downBtn.addEventListener("touchstart", (e) => { e.preventDefault(); KEY_DOWN = true;});
+downBtn.addEventListener("touchend", () => { KEY_DOWN = false; });
+downBtn.addEventListener("mousedown", () => { KEY_DOWN = true; });
+downBtn.addEventListener("mouseup", () => { KEY_DOWN = false; });
 
       setInterval(debugUpdate, 1000/100);
       spawnUfoLoop();
