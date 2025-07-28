@@ -1,246 +1,240 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ufo Shooter</title>
-    <style>
-        canvas {
-            background-color: brown;
-        }
-        body {
-            margin: 0;
-            background-color: blue;
-        }
-        footer {
-            height: 10px;
-            background-color: black;
-            margin: 0;
-        }
-    </style>
-    <script>
-      (function () {  
-     const params = new URLSearchParams(window.location.search);
-          //if (confirm("Willst du fortfahren?")) {
-   // console.log("Benutzer hat Ja gewählt");
-//} else {
-  // console.log("Benutzer hat Nein gewählt");
-//}
-
-    
-    if (params.get("debug") == "true") {
-      // Im localStorage setzen
-      localStorage.setItem("debug", "true");
-      alert("Debug true");
-    } else {
-        localStorage.setItem("debug", "false");
-        alert("Debug = False");
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ufo Shooter</title>
+  <style>
+    canvas {
+      background-color: brown;
     }
-})();
-        window.onerror = function(message, source, lineno, colno, error) {
-            if(localStorage.getItem("debug") == "true"){
+    body {
+      margin: 0;
+      background-color: blue;
+    }
+    footer {
+      height: 10px;
+      background-color: black;
+      margin: 0;
+    }
+  </style>
+  <script>
+    // Globale Variablen
+    let rocket;
+    let ctx;
+    let backgroundImage;
+    let ufos = [];
+    let guns = [];
+    let score = 0;
+    let cooldown = 0;
 
-  alert(
-      message + "\n\n" +
-    "URL: " + source + "\n" +
-    "Line: " + lineno + "/" + colno + "\n\n" +
-    "Stacktrace: " + (error && error.stack ? error.stack : "nicht verfügbar")
-  );
-}};
-        throw new Error("Debug test Error");
+    let KEY_SPACE = false;
+    let KEY_UP = false;
+    let KEY_DOWN = false;
 
+    // Debug-Modus
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("debug") === "true") {
+        localStorage.setItem("debug", "true");
+        alert("Debug = true");
+      } else {
+        localStorage.setItem("debug", "false");
+        alert("Debug = false");
+      }
+    })();
 
-        //Key Status
-        let KEY_SPACE = false; // 32
-        let KEY_UP = false; // 38
-        let KEY_DOWN = false; // 40
-        let score = 0;
-        let guns = [];
-    
-        let cooldown = 0;
-        //Game Objekts
-       
-        function handlePress(){
-            KEY_UP = true;
-        }
-        function handleReleasd(){
-            KEY_UP = false;
-        }
-        //Key Test
+    // Fehlerbehandlung
+    window.onerror = function (message, source, lineno, colno, error) {
+      if (localStorage.getItem("debug") === "true") {
+        alert(
+          message +
+            "\n\n" +
+            "URL: " +
+            source +
+            "\n" +
+            "Line: " +
+            lineno +
+            "/" +
+            colno +
+            "\n\n" +
+            "Stacktrace: " +
+            (error && error.stack ? error.stack : "nicht verfügbar")
+        );
+      }
+    };
 
-        document.onkeydown = function(e){
-             e.preventDefault();
-            if(e.keyCode == 192){
-                KEY_SPACE = true;
-            }
-            if(e.keyCode == 87){
-                KEY_UP = true;
-            }
-            if(e.keyCode == 83){
-                KEY_DOWN = true;
-            }
-        }
-        document.onkeyup = function(e){
-             if(e.keyCode == 192){
-                KEY_SPACE = false;
-            }
-            if(e.keyCode == 87){
-                KEY_UP = false;
-            }
-            if(e.keyCode == 83){
-                KEY_DOWN = false;
-            }
-        }
-        
-        function startGame(){
-            loadImages();
-              const upBtn = document.getElementById("upBtn");
-    upBtn.addEventListener("touchstart", handlePress);
-    upBtn.addEventListener("touchend", handleReleasd);
+    // Initialisierung nach Seitenladevorgang
+    function startGame() {
+      const canvas = document.getElementById("gamescreen");
+      ctx = canvas.getContext("2d");
 
-            spawnUfoLoop();
-            setInterval(update, 1000/30);
-            //setInterval(createUfos, 2000);
-            draw();
-        }
-        function spawnUfoLoop() {
-           let ufoSpawnDelay = 2000;      // Startverzögerung (ms)
-const minSpawnDelay = 100;     // Minimalintervall
-const spawnAcceleration = 10; 
-    createUfos();  // Dein UFO-Erstellungs-Code
+      // Rocket & Background
+      backgroundImage = new Image();
+      backgroundImage.src = "../../img/background.png";
 
-    // Delay anpassen (aber nicht unter minSpawnDelay)
-    ufoSpawnDelay = Math.max(minSpawnDelay, ufoSpawnDelay - spawnAcceleration);
+      rocket = {
+        x: 0,
+        y: 0,
+        width: 128,
+        height: 74,
+        src: "../../img/rocket.png",
+        img: new Image(),
+      };
+      rocket.img.src = rocket.src;
 
-    // Nächsten Aufruf planen
-    setTimeout(spawnUfoLoop, ufoSpawnDelay);
-}
-        
-        function update(){
-            cooldown -= 1000/30;
-            if(KEY_UP){
-                rocket.y -= 5;
-            }
-            if(KEY_DOWN){
-                rocket.y += 5;
-            }
-            if(rocket.y < 0){
-                rocket.y = 0;
-            }
-            if(rocket.y + rocket.hight > 1000){
-                rocket.y = 1000 - rocket.hight;
-            }
-            if(KEY_SPACE && cooldown <= 0){
-                KEY_SPACE = false;
-                cooldown = 500;
-                shoot();
-            }
-            ufos.forEach(function(ufo){
-                ufo.x -= ufo.speed;
-                if(ufo.x < -50){
-                        ufos = ufos.filter(u => u != ufo);
-                }
-                if(rocket.x + rocket.width > ufo.x && rocket.x < ufo.x + ufo.width){
-                    if(rocket.y < ufo.y + ufo.hight && rocket.y + rocket.hight > ufo.y){
-                        console.log("COLLISION");
-                        rocket.img.src = '../../img/explosion.png'
-                        ufos = ufos.filter(u => u != ufo);
-                    }
-                }
-                
-            });
-              guns.forEach(function(shoot){
-                shoot.x += 25; 
-                if(shoot.x <= -10){
-                     guns = guns.filter(g => g != shoot);
-                     console.log("DELET SHOOT");
-                }
-                ufos.forEach(function(ufo){
-                if(shoot.x + shoot.width > ufo.x && shoot.x < ufo.x + ufo.width){
-                    if(shoot.y < ufo.y + ufo.hight && shoot.y + shoot.hight > ufo.y){
-                        console.log("COLLISION");
-                        ufos = ufos.filter(u => u != ufo);
-                        guns = guns.filter(g => g != shoot);
-                        score += 1;
-                    }
-                }
-                
-            })
-            });
-            document.getElementById("scoreboard").innerText = "Score: " + score;
+      // Touch-Unterstützung
+      const upBtn = document.getElementById("upBtn");
+      upBtn.addEventListener("touchstart", () => (KEY_UP = true));
+      upBtn.addEventListener("touchend", () => (KEY_UP = false));
 
-        }
+      spawnUfoLoop();
+      setInterval(update, 1000 / 30);
+      requestAnimationFrame(draw);
+    }
 
-        function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+    // Tasteneingaben
+    document.onkeydown = function (e) {
+      e.preventDefault();
+      if (e.keyCode === 192) KEY_SPACE = true;
+      if (e.keyCode === 87) KEY_UP = true;
+      if (e.keyCode === 83) KEY_DOWN = true;
+    };
 
-        function createUfos(){
-             let ufos = [];
-           let ufo =
-            {
-                x: 1700,
-                y: getRandomInt(41, 959),
-                width: 64,
-                hight: 41,
-                src: '../../img/ufo.png',
-                speed: getRandomInt(7, 10),
-                img: new Image()
-            };
-            ufo.img.src = ufo.src; 
-            ufos.push(ufo);
-        }
-        function shoot(){
-           let shoot =
-            {
-                x: rocket.x + rocket.width,
-                y: rocket.y + rocket.hight / 2 - 15,
-                width: 30,
-                hight: 30,
-                src: '../../img/kugel.png',
-                img: new Image()
-            };
-            shoot.img.src = shoot.src; 
-            guns.push(shoot);
-        }
+    document.onkeyup = function (e) {
+      if (e.keyCode === 192) KEY_SPACE = false;
+      if (e.keyCode === 87) KEY_UP = false;
+      if (e.keyCode === 83) KEY_DOWN = false;
+    };
 
-        function loadImages(){
-            let canvas = document.getElementById('gamescreen');
-            let ctx = canvas.getContext('2d');
-            let backgroundImage = new Image;
-            backgroundImage.src = '../../img/background.png'
-             let rocket = {
-            x: 0,
-            y: 0,
-            width: 128,
-            hight: 74,
-            src: '../../img/rocket.png'
-        };
-            rocket.img = new Image();
-            rocket.img.src = rocket.src;
+    // UFO-Spawning-Loop
+    let ufoSpawnDelay = 2000;
+    const minSpawnDelay = 100;
+    const spawnAcceleration = 10;
+
+    function spawnUfoLoop() {
+      createUfos();
+      ufoSpawnDelay = Math.max(minSpawnDelay, ufoSpawnDelay - spawnAcceleration);
+      setTimeout(spawnUfoLoop, ufoSpawnDelay);
+    }
+
+    // UFO erzeugen
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function createUfos() {
+      let ufo = {
+        x: 1700,
+        y: getRandomInt(41, 959),
+        width: 64,
+        height: 41,
+        speed: getRandomInt(7, 10),
+        src: "../../img/ufo.png",
+        img: new Image(),
+      };
+      ufo.img.src = ufo.src;
+      ufos.push(ufo);
+    }
+
+    // Schuss abfeuern
+    function shoot() {
+      let shoot = {
+        x: rocket.x + rocket.width,
+        y: rocket.y + rocket.height / 2 - 15,
+        width: 30,
+        height: 30,
+        src: "../../img/kugel.png",
+        img: new Image(),
+      };
+      shoot.img.src = shoot.src;
+      guns.push(shoot);
+    }
+
+    // Spiellogik-Update
+    function update() {
+      cooldown -= 1000 / 30;
+
+      if (KEY_UP) rocket.y -= 5;
+      if (KEY_DOWN) rocket.y += 5;
+
+      if (rocket.y < 0) rocket.y = 0;
+      if (rocket.y + rocket.height > 1000) rocket.y = 1000 - rocket.height;
+
+      if (KEY_SPACE && cooldown <= 0) {
+        KEY_SPACE = false;
+        cooldown = 500;
+        shoot();
+      }
+
+      // UFO-Bewegung und Kollision
+      ufos = ufos.filter((ufo) => {
+        ufo.x -= ufo.speed;
+        const collision =
+          rocket.x + rocket.width > ufo.x &&
+          rocket.x < ufo.x + ufo.width &&
+          rocket.y < ufo.y + ufo.height &&
+          rocket.y + rocket.height > ufo.y;
+
+        if (collision) {
+          console.log("COLLISION");
+          rocket.img.src = "../../img/explosion.png";
+          return false; // UFO entfernen
         }
 
-        function draw(){
-            ctx.drawImage(backgroundImage, 0, 0);
-            ctx.drawImage(rocket.img, rocket.x, rocket.y, rocket.width, rocket.hight);
-            ufos.forEach(function(ufo){
-                ctx.drawImage(ufo.img, ufo.x, ufo.y, ufo.width, ufo.hight);
-            });
-            guns.forEach(function(shoot){
-                ctx.drawImage(shoot.img, shoot.x, shoot.y, shoot.width, shoot.hight);
-            });
-            
-            requestAnimationFrame(draw);
-        }
-        
-    </script>
+        return ufo.x > -50;
+      });
+
+      // Schuss-Bewegung & Kollision
+      guns = guns.filter((shoot) => {
+        shoot.x += 25;
+        let hit = false;
+
+        ufos = ufos.filter((ufo) => {
+          const hitCheck =
+            shoot.x + shoot.width > ufo.x &&
+            shoot.x < ufo.x + ufo.width &&
+            shoot.y < ufo.y + ufo.height &&
+            shoot.y + shoot.height > ufo.y;
+
+          if (hitCheck) {
+            hit = true;
+            score += 1;
+            return false; // UFO entfernen
+          }
+
+          return true;
+        });
+
+        return !hit && shoot.x <= 1500;
+      });
+
+      document.getElementById("scoreboard").innerText = "Score: " + score;
+    }
+
+    // Zeichnen
+    function draw() {
+      ctx.drawImage(backgroundImage, 0, 0, 1500, 1000);
+      ctx.drawImage(rocket.img, rocket.x, rocket.y, rocket.width, rocket.height);
+
+      ufos.forEach((ufo) =>
+        ctx.drawImage(ufo.img, ufo.x, ufo.y, ufo.width, ufo.height)
+      );
+
+      guns.forEach((shoot) =>
+        ctx.drawImage(shoot.img, shoot.x, shoot.y, shoot.width, shoot.height)
+      );
+
+      requestAnimationFrame(draw);
+    }
+  </script>
 </head>
 <body onload="startGame()">
-    <header>
-        <h1 id="scoreboard">Score: 0</h1>   
-    </header>
-    <canvas id="gamescreen" width="1500" height="1000"></canvas>
-    <button id="upBtn">Up</button>
-    <footer></footer>
+  <header>
+    <h1 id="scoreboard">Score: 0</h1>
+  </header>
+  <canvas id="gamescreen" width="1500" height="1000"></canvas>
+  <button id="upBtn">Up</button>
+  <footer></footer>
 </body>
 </html>
