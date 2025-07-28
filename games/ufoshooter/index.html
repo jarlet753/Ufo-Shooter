@@ -217,7 +217,12 @@
     function draw() {
       ctx.drawImage(backgroundImage, 0, 0, 1500, 1000);
       ctx.drawImage(rocket.img, rocket.x, rocket.y, rocket.width, rocket.height);
+      if (localStorage.getItem("debug") === "true") {
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "yellow"
+        ctx.fillText("Ufos: " + ufos.length, 10, 30);
 
+      }
       ufos.forEach((ufo) =>
         ctx.drawImage(ufo.img, ufo.x, ufo.y, ufo.width, ufo.height)
       );
@@ -229,12 +234,7 @@
       requestAnimationFrame(draw);
     }
     function debugUpdate(){
-      if (localStorage.getItem("debug") === "true") {
-        ctx.font = "20px Arial";
-        ctx.fillStyle = "yellow"
-        ctx.fillText("Ufos: " + ufos.length, 10, 30);
-
-      }
+      
     }
   </script>
 </head>
