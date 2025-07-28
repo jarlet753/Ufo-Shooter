@@ -100,6 +100,13 @@ downBtn.addEventListener("touchend", () => { KEY_DOWN = false; });
 downBtn.addEventListener("mousedown", () => { KEY_DOWN = true; });
 downBtn.addEventListener("mouseup", () => { KEY_DOWN = false; });
 
+      const shootBtn = document.getElementById("downBtn");
+      shootBtn.addEventListener("touchstart", (e) => { e.preventDefault(); KEY_SPACE = true;});
+shootBtn.addEventListener("touchend", () => { KEY_SPACE= false; });
+shootBtn.addEventListener("mousedown", () => { KEY_SPACE = true; });
+shootBtn.addEventListener("mouseup", () => { KEY_SPACE = false; });
+
+
       setInterval(debugUpdate, 1000/100);
       spawnUfoLoop();
       setInterval(update, 1000 / 30);
