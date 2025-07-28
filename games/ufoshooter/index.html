@@ -17,12 +17,8 @@
       background-color: black;
       margin: 0;
     }
-     #upBtn {
-    position: fixed;
-    bottom: 100px;
-    left: 20px;
-    font-size: 2rem;
-    z-index: 1000;
+  button {
+   
   }
   </style>
   <script>
@@ -253,7 +249,11 @@ upBtn.addEventListener("mouseup", () => { KEY_UP = false; });
     <h1 id="scoreboard">Score: 0</h1>
   </header>
   <canvas id="gamescreen" width="1500" height="1000"></canvas>
-  <button id="upBtn">Up</button>
+  <div>
+    <button id="upBtn">Up</button>
+    <button id="downBtn">Down</button>
+   <button id="shootBtn">Shoot</button> 
+  </div>
   <footer></footer>
 </body>
 </html>
