@@ -95,7 +95,7 @@
       const upBtn = document.getElementById("upBtn");
       upBtn.addEventListener("touchstart", () => (KEY_UP = true));
       upBtn.addEventListener("touchend", () => (KEY_UP = false));
-      setIntetval(debugUpdate, 1000/100);
+      setInterval(debugUpdate, 1000/100);
       spawnUfoLoop();
       setInterval(update, 1000 / 30);
       requestAnimationFrame(draw);
