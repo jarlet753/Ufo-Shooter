@@ -56,10 +56,7 @@
         let KEY_DOWN = false; // 40
         let score = 0;
         let guns = [];
-       
-        let ufoSpawnDelay = 2000;      // Startverzögerung (ms)
-const minSpawnDelay = 100;     // Minimalintervall
-const spawnAcceleration = 10;
+    
         let cooldown = 0;
         //Game Objekts
        
@@ -107,6 +104,9 @@ const spawnAcceleration = 10;
             draw();
         }
         function spawnUfoLoop() {
+           let ufoSpawnDelay = 2000;      // Startverzögerung (ms)
+const minSpawnDelay = 100;     // Minimalintervall
+const spawnAcceleration = 10; 
     createUfos();  // Dein UFO-Erstellungs-Code
 
     // Delay anpassen (aber nicht unter minSpawnDelay)
